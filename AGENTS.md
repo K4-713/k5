@@ -59,9 +59,9 @@ Project requirements are defined by the end-user documentation. To implement the
 * Always use the appropriate log level
   * Errors should be reserved for system-level problems that represent an unexpected outage or partial loss of functionality, which may require developer attention to address
   * Use Warnings for events that are unexpected, not optimal, and/or poorly handled, but that do not represent a system outage or loss of functionality that a user would notice.
-  * Info should be used to enbable things like counting, tracking, or monitoring performance, and general system activity audits
+  * Info should be used to enable things like counting, tracking, or monitoring performance, and general system activity audits
   * Debug should be saved for verbose logs that are usually not wanted unless there is a problem that requires temporary in-depth troubleshooting
-* Changing log level must be achieveable via a settings change, rather than a code deploy
+* Changing log level must be achievable via a settings change, rather than a code deploy
 
 ## Automated Testing
 * Write tests to ensure adherence to the end-user documentation, to uncover bugs in existing code, and to prevent future regressions
@@ -75,32 +75,8 @@ Project requirements are defined by the end-user documentation. To implement the
   * If they are errors or warnings thrown by the test infrastructure, or unexpected messages from the code we are testing, diagnose and address the underlying issue being described
 * Test the things we expect to happen. Also test things like edge cases, missing resources, garbage inputs, and successful prevention of things we don't want to happen.
 
-
-## Refactoring
-* Code should occasionally be refactored to:
-  * Comply with new requirements or objectives
-  * Simplify existing code
-  * Improve performance
-  * Remove or update old dependencies
-  * Remove deprecated features and general cruft
-* Keep code refactoring work separate from feature development
-  * When new features require refactoring, do the required refactor as a separate prep commit before working on the new feature directly
-* Refactoring should be targeted, with individual refactoring commits confined to one or two improvements
-* When refactoring, first make sure the targeted code has thorough test coverage for all expected behavior in that part of the system. After the refactor, reuse those tests to verify that the refactor does not change any expected system behavior
-  * It is not unusual to uncover and fix pre-existing bugs as part of this process. These should be documented in the commit message
-
-
----
-
-# Warpping up new work
-Ensure that we always adhere to our own rules. Make and work through tasks to do the following:
-* Look through the README.md file and compare the contents to the current code.
-  * Identify areas of the code that need either more end-user documentation (which should be very high level), or new entries in engineering decisions (mechanisms that a user would not need to be explained, because they are either designed to be intuitive, or they are not visible to the user).
-  * Identify parts of README.md that need to be corrected
-  * If README must be altered, leave descriptive placeholders in square brackets in the README file, containing a short description of the fixes or undocumented behaviors that must be addressed.
-  * Code behaviors that are currently tested in the TDDs without related information in README.md or in the engineering decisions should be prioritized.
-  * Wait for the user to fix README.md before continuing to the next step.
-* Have a look through the ARCHITECTURE.md, DESIGN.md, ENGINEERING_DECISIONS.md, and TODO.md files, and call out any places where the documentation doesn't match the code. Decide interactively with the user which side is more correct in each mismatch case, and change the other side to match.
-* If there are any substantial items in the README.md, DESIGN.md, or ARCHITECTURE.md docs that don't have TDD tests, write and run those tests which verify accuracy of the documentation.
-* Confirm every decision in ENGINEERING_DECISIONS.md has at least one TDD_ test enforcing it; write any that are missing. If any items are impossible to test, note that, and why.
-* Remove completely finished sections from TODO.md. Leave only sections that still have unfinished pieces.
+# Workflows
+Detailed, step-by-step procedures live as skills, so they load only when needed.
+Invoke the matching skill at the right moment:
+* `refactor` — when restructuring existing code without changing its observable behavior. Keeps the refactor in its own commit, separate from feature work, and re-verifies behavior with the existing tests.
+* `wrap-up-work` — when finishing a chunk of work, before committing or opening a PR. Reconciles the documentation against the code and closes `TDD_` test gaps.
