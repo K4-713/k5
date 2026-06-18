@@ -25,14 +25,30 @@ This project will take a Documentation Driven Development approach, in which the
 # Next Steps
 - See TODO.md
 
+# Routing facts to the right document
+Before recording any behavior, rule, or detail, decide where it belongs. Filing
+internal mechanisms into the end-user docs is a recurring mistake — guard against it.
+Ask, in order:
+1. Can a user observe or rely on this just by using the product — without reading code, internal docs, or tests? Does it change what they do, see, or can expect? → If yes, it belongs in README.md, stated high-level and in plain user language (what they can do and what happens, never how it works internally).
+2. Otherwise, is it a rule the implementation must obey — a commitment whose violation would be a bug (storage invariants, formats, ID/generation rules, platform constraints, security mechanisms)? → If yes, it belongs in ENGINEERING_DECISIONS.md, with the next ED-<n> id and a TDD_ test.
+3. Otherwise it merely describes how the code is built today and could change without breaking a promise → ARCHITECTURE.md (descriptive, no test).
+
+Default to the lowest altitude that fits. When unsure whether something is user-facing,
+it almost certainly is not — prefer an engineering decision over the README. The README
+earns each line: if deleting a sentence would not stop a user from doing or expecting
+something, it does not belong there.
+* "Your export downloads as a CSV you can open in any spreadsheet" → README; "export rows are UTF-8 with a BOM and CRLF line endings" → engineering decision.
+* "You stay signed in across restarts" → README; "session tokens live in the OS keychain and rotate every 24h" → engineering decision.
+
 # Coding Practices
-Project requirements are defined by the end-user documentation. To implement these requirements:
-* First, before any code is written for a new feature or requirement, write automated tests that verify the behavior outlined in the end-user documentation. Initially, these tests will fail.
-  * These tests will not be the only automated tests, so they should be easily identifiable by a TDD_ prefix in the test name, and commented with the line(s) in the documentation covered by this test
-* A feature may also carry binding engineering decisions that users never see (storage invariants, platform constraints, generation rules, etc.). Record these in ENGINEERING_DECISIONS.md *before* implementing, and cover each one with a TDD_ test whose comment cites the decision ID (e.g. `// ENGINEERING_DECISIONS.md ED-3`) rather than a README line.
-* Implement the new feature(s)
-* Once the feature is implemented, the documentation tests will pass, and keeping those tests will prevent regressions.
-* Always note next steps for implementation, if any, in TODO.md
+Project requirements are defined by the end-user documentation, and features are built
+test-first under Documentation Driven Development. The detailed procedure is the
+`new-feature` skill; the binding rules are:
+* Behavior is specified in the end-user docs before it is built, and the user — not the agent — authors those docs.
+* Automated tests (TDD_ prefix) are written from the documented behavior and must fail before implementation.
+* Binding, non-user-facing decisions are recorded in ENGINEERING_DECISIONS.md, each with a TDD_ test, before implementing.
+* Implement until the documentation tests pass; keep the tests to prevent regressions.
+* Note remaining work in TODO.md.
 
 # Guidelines
 * Update code comments when relevant changes are made to the code
@@ -78,5 +94,6 @@ Project requirements are defined by the end-user documentation. To implement the
 # Workflows
 Detailed, step-by-step procedures live as skills, so they load only when needed.
 Invoke the matching skill at the right moment:
+* `new-feature` — when starting or implementing net-new behavior. Walks the test-first DDD loop: confirm the spec in the end-user docs, write failing `TDD_` tests, record engineering decisions, implement to green, update `TODO.md`.
 * `refactor` — when restructuring existing code without changing its observable behavior. Keeps the refactor in its own commit, separate from feature work, and re-verifies behavior with the existing tests.
 * `wrap-up-work` — when finishing a chunk of work, before committing or opening a PR. Reconciles the documentation against the code and closes `TDD_` test gaps.

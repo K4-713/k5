@@ -24,10 +24,16 @@ Look through `README.md` and compare its contents to the current code.
   (mechanisms a user would not need explained — because they are either designed
   to be intuitive, or they are not visible to the user).
 - Identify parts of `README.md` that need to be corrected.
-- If `README.md` must be altered, **do not rewrite it yourself**. Leave
-  descriptive placeholders in square brackets in the file, each containing a
-  short description of the fix or the undocumented behavior that must be
-  addressed.
+- If `README.md` must be altered, **do not rewrite it yourself** — the user owns
+  the end-user docs. Leave a bracketed placeholder that names *where* and *what*
+  is missing or wrong but is deliberately **not shippable as written**, so it
+  forces the user to author the real text. Use this form:
+
+  ```
+  [NEEDS END-USER DOC — <area>: state what the user does and what they observe;
+  cover <the specific aspects that must be specified or corrected>. Internal /
+  implementation details do not belong here. Replace this entire bracket.]
+  ```
 - Prioritize code behaviors that are currently covered by `TDD_` tests but have
   no corresponding information in `README.md` or the engineering decisions.
 - **Wait for the user to fix `README.md` before continuing to the next step.**

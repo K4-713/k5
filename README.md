@@ -14,6 +14,9 @@ every project. It has two halves:
   `@import`.
 - **Enable — on-demand procedures (`skills/`).** Step-by-step workflows that load
   only when the relevant moment arrives:
+  - [`new-feature`](skills/new-feature/SKILL.md) — run when building net-new
+    behavior, to walk the test-first DDD loop (spec → failing tests →
+    engineering decisions → implement to green).
   - [`wrap-up-work`](skills/wrap-up-work/SKILL.md) — run when finishing a chunk
     of work (before committing or opening a PR) to reconcile the documentation
     against the code and close `TDD_` test gaps.
@@ -29,6 +32,7 @@ while a skill's body loads on demand. Rules that must always hold live in
 ```
 AGENTS.md                     # always-on guardrails (imported by consumers)
 skills/
+  new-feature/SKILL.md        # test-first forward DDD loop for net-new behavior
   wrap-up-work/SKILL.md       # end-of-work doc/code/test reconciliation
   refactor/SKILL.md           # safe, test-backed refactoring procedure
 .claude/skills/               # symlinks so this repo discovers its own skills
@@ -44,6 +48,7 @@ git submodule add <k5-remote-url> .claude/shared
 
 # 2. Surface each skill into the path Claude Code scans (.claude/skills/).
 mkdir -p .claude/skills
+ln -snf ../shared/skills/new-feature  .claude/skills/new-feature
 ln -snf ../shared/skills/wrap-up-work .claude/skills/wrap-up-work
 ln -snf ../shared/skills/refactor     .claude/skills/refactor
 
