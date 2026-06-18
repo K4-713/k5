@@ -1,10 +1,10 @@
-# Code Buddy
+# k5
 A shared, reusable workflow that enables and enforces End-User Documentation
 Driven Development (DDD) across all of your projects.
 
 ## Description
 
-Code Buddy is meant to be consumed by your other repositories as a git
+k5 is meant to be consumed by your other repositories as a git
 submodule, so the workflow lives in one place instead of being copy-pasted into
 every project. It has two halves:
 
@@ -34,13 +34,13 @@ skills/
 .claude/skills/               # symlinks so this repo discovers its own skills
 ```
 
-## Using Code Buddy in another project
+## Using k5 in another project
 
 From the root of a project that should adopt the workflow:
 
 ```sh
-# 1. Add Code Buddy as a submodule.
-git submodule add <code-buddy-remote-url> .claude/shared
+# 1. Add k5 as a submodule.
+git submodule add <k5-remote-url> .claude/shared
 
 # 2. Surface each skill into the path Claude Code scans (.claude/skills/).
 mkdir -p .claude/skills
@@ -53,7 +53,7 @@ echo '@.claude/shared/AGENTS.md' >> CLAUDE.md
 
 # 4. Commit the wiring.
 git add .gitmodules .claude CLAUDE.md
-git commit -m "Adopt Code Buddy shared DDD workflow"
+git commit -m "Adopt k5 shared DDD workflow"
 ```
 
 Anyone cloning the consuming project afterward runs
