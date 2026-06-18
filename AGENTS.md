@@ -69,6 +69,7 @@ test-first under Documentation Driven Development. The detailed procedure is the
 * Avoid introducing new dependencies to production code
 * Dependencies must be removed when no longer needed
 * Whenever a dependency is introduced, updated, or removed, make sure it is properly credited in LICENSE.md
+* When making any of these changes, follow the `dependency-change` skill
 
 ## Logging
 * Always log key events for system visibility
@@ -96,4 +97,5 @@ Detailed, step-by-step procedures live as skills, so they load only when needed.
 Invoke the matching skill at the right moment:
 * `new-feature` — when starting or implementing net-new behavior. Walks the test-first DDD loop: confirm the spec in the end-user docs, write failing `TDD_` tests, record engineering decisions, implement to green, update `TODO.md`.
 * `refactor` — when restructuring existing code without changing its observable behavior. Keeps the refactor in its own commit, separate from feature work, and re-verifies behavior with the existing tests.
+* `dependency-change` — when adding, upgrading, replacing, or removing a third-party dependency. Enforces the dependency rules below, including crediting the change in `LICENSE.md`.
 * `wrap-up-work` — when finishing a chunk of work, before committing or opening a PR. Reconciles the documentation against the code and closes `TDD_` test gaps.
