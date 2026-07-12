@@ -99,3 +99,4 @@ Invoke the matching skill at the right moment:
 * `refactor` — when restructuring existing code without changing its observable behavior. Keeps the refactor in its own commit, separate from feature work, and re-verifies behavior with the existing tests.
 * `dependency-change` — when adding, upgrading, replacing, or removing a third-party dependency. Enforces the dependency rules below, including crediting the change in `LICENSE.md`.
 * `wrap-up-work` — when finishing a chunk of work, before committing or opening a PR. Reconciles the documentation against the code and closes `TDD_` test gaps.
+* `confirm-by-eye` — when iterating on a change that can only be judged perceptually (look, motion, feel, sound, timing) and cannot be pinned by a `TDD_` test. Isolates one change at a time, gives the user an A/B toggle in the real running product, and treats the user's perception — not the agent's own probe — as the verdict.

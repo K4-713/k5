@@ -24,6 +24,10 @@ every project. It has two halves:
     code without changing its observable behavior.
   - [`dependency-change`](skills/dependency-change/SKILL.md) — run when adding,
     upgrading, replacing, or removing a third-party dependency.
+  - [`confirm-by-eye`](skills/confirm-by-eye/SKILL.md) — run when iterating on a
+    change that can only be judged perceptually (look, motion, feel, sound,
+    timing) and has no definitive `TDD_` test: one change at a time, an A/B
+    toggle in the real product, the user's perception as the verdict.
 
 The split matters because `AGENTS.md` content is always in the agent's context,
 while a skill's body loads on demand. Rules that must always hold live in
@@ -39,6 +43,7 @@ skills/
   wrap-up-work/SKILL.md       # end-of-work doc/code/test reconciliation
   refactor/SKILL.md           # safe, test-backed refactoring procedure
   dependency-change/SKILL.md  # add/upgrade/remove a dependency (credits LICENSE.md)
+  confirm-by-eye/SKILL.md     # user-in-the-loop verification for perceptual changes
 .claude/skills/               # symlinks so this repo discovers its own skills
 ```
 
