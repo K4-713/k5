@@ -52,6 +52,20 @@ State plainly what you changed, mechanically, and what to look for. Then stop an
 let the user judge. Do **not** write "fixed", "solved", "done", or "that should
 do it". The change is not resolved until the user says it reads different.
 
+## 4a. Between calls, stay cheap — batch the slow checks for after
+Inside the tight loop (steps 2–6), optimize for the user's turnaround, not your
+own certainty. Before handing off, run only the cheapest check that keeps the
+hand-off honest — that the build launches (a parse/boot check) — **not** the full
+test suite, and not other long, human-free tasks. A perceptual change that is not
+confirmed yet may be reverted or reworked on the very next call, so verifying it
+with a minutes-long suite between every micro-iteration spends real time on code
+the user might discard in seconds — and it makes the human wait.
+
+Hold the full test suite, documentation reconciliation, and `TDD_` test-writing
+until the user says the problem is at least *plausibly* solved (step 7). Those are
+exactly the longer-running, no-human-in-the-loop tasks to spend time on once the
+back-and-forth is done.
+
 ## 5. Diagnose from the user's view, not your probe
 When you need to reproduce the problem, reproduce the *user's* actual scene,
 inputs, and settings — ask for their screenshot or recording of the real thing.
@@ -63,8 +77,10 @@ pile on another change. An inert change is strong evidence your causal model is
 wrong (the code path may not even execute — instrument it and check). Go back to
 the user's observation and re-diagnose before touching more code.
 
-## 7. When the user confirms, capture it
-Once the user confirms the change reads right:
+## 7. When the user confirms, capture it — and now run the slow checks
+Once the user confirms the change reads right, this is the moment for the
+longer-running work you deferred in step 4a (no human waiting now):
+- Run the full test suite and confirm it is green.
 - Fold the confirmed value into a named constant (no magic numbers) with a short
   comment noting it was user-confirmed and when.
 - If a binding invariant emerged (something a future change must not break),
