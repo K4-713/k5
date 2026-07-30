@@ -68,7 +68,7 @@ test-first under Documentation Driven Development. The detailed procedure is the
 * 3rd party dependencies must be kept current
 * Avoid introducing new dependencies to production code
 * Dependencies must be removed when no longer needed
-* Whenever a dependency is introduced, updated, or removed, make sure it is properly credited in LICENSE.md
+* Whenever a dependency is introduced, updated, or removed, make sure it is properly credited. If no license tracking process is named in the project's own AGENTS.md, track them in LICENSE.md.
 * When making any of these changes, follow the `dependency-change` skill
 
 ## Logging
@@ -97,6 +97,6 @@ Detailed, step-by-step procedures live as skills, so they load only when needed.
 Invoke the matching skill at the right moment:
 * `new-feature` — when starting or implementing net-new behavior. Walks the test-first DDD loop: confirm the spec in the end-user docs, write failing `TDD_` tests, record engineering decisions, implement to green, update `TODO.md`.
 * `refactor` — when restructuring existing code without changing its observable behavior. Keeps the refactor in its own commit, separate from feature work, and re-verifies behavior with the existing tests.
-* `dependency-change` — when adding, upgrading, replacing, or removing a third-party dependency. Enforces the dependency rules below, including crediting the change in `LICENSE.md`.
+* `dependency-change` — when adding, upgrading, replacing, or removing a third-party dependency. Enforces the dependency rules below, including crediting the change wherever this project tracks attribution.
 * `wrap-up-work` — when finishing a chunk of work, before committing or opening a PR. Reconciles the documentation against the code and closes `TDD_` test gaps.
 * `confirm-by-eye` — when iterating on a change that can only be judged perceptually (look, motion, feel, sound, timing) and cannot be pinned by a `TDD_` test. Isolates one change at a time, gives the user an A/B toggle in the real running product, and treats the user's perception — not the agent's own probe — as the verdict.

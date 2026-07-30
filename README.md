@@ -37,15 +37,25 @@ while a skill's body loads on demand. Rules that must always hold live in
 
 ```
 AGENTS.md                     # always-on guardrails (imported by consumers)
-install.sh                    # consumer setup: links k5's skills into .claude/skills/
+install.sh                    # setup: links k5's skills into .claude/skills/ (consumers and k5 itself)
 skills/
   new-feature/SKILL.md        # test-first forward DDD loop for net-new behavior
   wrap-up-work/SKILL.md       # end-of-work doc/code/test reconciliation
   refactor/SKILL.md           # safe, test-backed refactoring procedure
-  dependency-change/SKILL.md  # add/upgrade/remove a dependency (credits LICENSE.md)
+  dependency-change/SKILL.md  # add/upgrade/remove a dependency (keeps credits accurate)
   confirm-by-eye/SKILL.md     # user-in-the-loop verification for perceptual changes
 .claude/skills/               # symlinks so this repo discovers its own skills
 ```
+
+## Developing k5
+
+After adding or removing a skill here, run `./install.sh` from this repo's root
+to refresh k5's own `.claude/skills/` links, and commit them. The script detects
+which layout it is running in — a consuming project (where it sits at
+`<project>/.claude/shared`) or k5 itself (where it sits at the repo root) — and
+writes the right links for each. Skipping this step is invisible in consuming
+projects but leaves k5's own sessions unable to see the skill that was just
+added.
 
 ## Using k5 in another project
 
