@@ -75,6 +75,19 @@ skills/
 .claude/skills/               # symlinks so this repo discovers its own skills
 ```
 
+## Formatting, and what k5 does not decide
+
+`AGENTS.md` carries formatting *defaults* — prose as one line per paragraph,
+UTF-8, LF, final newline — and one rule about them: whatever the consuming
+project states wins, and the project's preference is the one to enforce. k5
+holds no opinion on indentation, tabs against spaces, or any language's code
+style, because those belong to the project and its existing tree.
+
+k5 ships no shared `.editorconfig`. Each project carries its own, so that a
+project with mixed indentation is not forced into a convention that would make
+every editor reformat its files on save. k5 has one for itself on the same
+terms — it governs this repo only.
+
 ## Developing k5
 
 After adding or removing a skill here, run `./install.sh` from this repo's root

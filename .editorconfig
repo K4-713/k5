@@ -1,0 +1,21 @@
+# Mechanical text settings for k5 itself. k5 ships no shared .editorconfig —
+# every project carries its own — so this one governs this repo only, and says
+# nothing about the projects that consume it.
+#
+# k5 is almost entirely Markdown, and follows the prose default it documents in
+# AGENTS.md: one line per paragraph, unwrapped.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+
+[*.sh]
+indent_style = space
+indent_size = 4

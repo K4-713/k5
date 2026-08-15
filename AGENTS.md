@@ -71,6 +71,14 @@ test-first under Documentation Driven Development. The detailed procedure is the
 * Code should be easy to deploy, and must provide a path to roll back
 * Use open standards whenever possible
 
+## Formatting
+These are defaults. Any preference the project states overrides them, and the project's preference is the one to enforce.
+* The project states its preferences in its own AGENTS.md (prose and code conventions) and in a project-level `.editorconfig` (what editors can enforce mechanically). k5 ships no shared `.editorconfig`; every project carries its own.
+* k5 takes no position on indentation — tabs against spaces, or width — or on any language's code style. Follow the project's stated preference. Absent one, match the file you are editing rather than imposing a convention on it.
+* Default for prose in Markdown: **one line per paragraph, no hard wrapping.** Editors soft-wrap for display, so there is no column for two tools to disagree about and no reflow churn when a sentence changes. Headings, table rows, list items, and code blocks are their own lines as usual.
+* Default text mechanics: UTF-8, LF line endings, a newline at end of file.
+* **Never reformat or re-wrap text you are not otherwise changing.** A reformat folded into a content change makes the change unreviewable, which costs more than any formatting gain gets back. If a file needs reflowing, that is its own commit touching nothing else.
+
 ## Dependencies
 * 3rd party dependencies must be kept current
 * Avoid introducing new dependencies to production code
