@@ -3,13 +3,13 @@ name: unfrak
 description: >-
   Umbrella workflow for bringing an existing, under-documented codebase into
   Documentation Driven Development, one area at a time, until each area reads as
-  though it had been built under DDD from the start. Sequences the six stages —
+  though it had been built under DDD from the start. Sequences the eight stages —
   `unfrak-survey`, `unfrak-inventory`, `unfrak-ratify`, `unfrak-register`,
-  `unfrak-lock`, `unfrak-finish` — and owns the working record and closing an
-  area out. Start here when adopting DDD on code written before it, or when a
-  feature area has no spec; use `new-feature` instead when the spec exists and
-  the behavior is new, or `wrap-up-work` when the docs exist and just need
-  reconciling.
+  `unfrak-lock`, `unfrak-backfill`, `unfrak-harden`, `unfrak-polish` — and owns the
+  working record and closing an area out. Start here when adopting DDD on code
+  written before it, or when a feature area has no spec; use `new-feature`
+  instead when the spec exists and the behavior is new, or `wrap-up-work` when
+  the docs exist and just need reconciling.
 ---
 
 # Retrofitting DDD onto existing code
@@ -43,8 +43,8 @@ constrains every stage.
 - **Document, then correct — in that order.** Finding broken behavior mid-unfrak
   is expected, and fixing it on the spot is not. It gets recorded and left alone
   until the spec around it is settled, because a fix decided mid-review quietly
-  answers a question the user has not been asked yet. `unfrak-finish` is where
-  the fixing happens, deliberately and last.
+  answers a question the user has not been asked yet. `unfrak-backfill` is where
+  the fixing happens, deliberately and only once the spec is settled.
 
 ## 1. Take one area, not the codebase
 Pick a bounded feature area — one page, one screen, one integration, one script.
@@ -76,15 +76,31 @@ With the area chosen by `unfrak-survey`:
    and what the user wants, as the queue for later fixes.
 4. **`unfrak-lock`** — write `TDD_` tests for the ratified behavior the code
    already delivers, and only that.
-5. **`unfrak-finish`** — treat the ratified documentation as a feature that is
+5. **`unfrak-backfill`** — treat the ratified documentation as a feature that is
    only partly built: refactor for testability, close every register entry
    through `new-feature`, and test every promise, until nothing about the area
    betrays that it was written before its spec.
+6. **`unfrak-harden`** — pin the paths the documentation never mentions: what can
+   destroy data, handle personal information, or call an external service. Write
+   the coverage AGENTS.md requires, then walk each security weakness with the
+   user and record the verdicts.
+7. **`unfrak-polish`** — bring the area into conformance with the coding
+   principles AGENTS.md states, every finding citing the rule it serves.
 
 Stages 3 and 4 can interleave with stage 2 as verdicts arrive; do not let them
 run ahead of it. Stage 5 starts only once stage 2 has no pending verdicts left —
-repairing code against a spec that is still moving settles open questions by
+backfilling against a spec that is still moving settles open questions by
 implementing one answer to them.
+
+Stages 6 and 7 run strictly in that order, and strictly after 5. The sequence is
+not arbitrary: 5 leaves the code doing what it promises, 6 proves the parts that
+were never promised in the first place, and only then does 7 restructure any of
+it. Polishing before hardening restructures dangerous paths that nothing yet
+covers; hardening before backfilling pins code a still-open gap may replace.
+
+The first five stages are what makes an area *specified*. The last two are what
+make it *good*, and they are the only stages that may be run on their own, against
+any area already carrying a ratified spec and a green suite.
 
 ## 4. Close the area
 Commit the documentation, the register entries, and the tests together, so the
@@ -98,10 +114,13 @@ open until it is settled. Do not close an area by guessing the last answer.
 
 A closed area is one that reads as though it had been built under DDD from the
 beginning: every documented promise delivered and tested, no register entries
-left against it. An area that is specified and tested but still failing its own
-promises is *paused*, not closed, and the umbrella keeps it on the list.
+left against it, its dangerous paths covered, and its open security questions
+either settled or knowingly accepted in writing. An area that is specified and
+tested but still failing its own promises is *paused*, not closed, and the
+umbrella keeps it on the list — as is one whose delete path or personal-data
+handling has still never been executed by a test.
 
-Progress is measured in areas fully ratified, tested, repaired, and committed —
+Progress is measured in areas fully ratified, tested, backfilled, and committed —
 not in documentation drafted or lines written.
 
 ## 5. Wind the process down as it finishes
@@ -119,13 +138,13 @@ code is worse than no survey at all. If the project grows new surfaces later, th
 next survey writes a fresh one.
 
 **The register** goes when its last entry is deleted by the fix that closed it,
-along with the doc-routing entry that points at it. `unfrak-finish` empties it
+along with the doc-routing entry that points at it. `unfrak-backfill` empties it
 one area at a time, so if every area is carried through that stage the register
 never accumulates for long — it exists to hold gaps between the review that found
-them and the repair that closes them, and a project that always finishes what it
+them and the backfill that closes them, and a project that always finishes what it
 starts keeps it nearly empty by construction.
 
-It can still outlive the backlog. Areas paused mid-repair, gaps that turned out
+It can still outlive the backlog. Areas paused mid-backfill, gaps that turned out
 to be feature-sized, and anything closed before this stage existed all leave
 entries standing, and a codebase can be completely specified while knowingly
 failing several of its own promises.

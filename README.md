@@ -28,6 +28,25 @@ every project. It has two halves:
     change that can only be judged perceptually (look, motion, feel, sound,
     timing) and has no definitive `TDD_` test: one change at a time, an A/B
     toggle in the real product, the user's perception as the verdict.
+  - [`unfrak`](skills/unfrak/SKILL.md) — run when adopting DDD on code written
+    before it, or on a feature area with no spec at all. An umbrella over eight
+    stages, each its own skill, taken one feature area at a time:
+    [`unfrak-survey`](skills/unfrak-survey/SKILL.md) ranks what still lacks a
+    ratified spec; [`unfrak-inventory`](skills/unfrak-inventory/SKILL.md) reads
+    an area and lists what it actually does;
+    [`unfrak-ratify`](skills/unfrak-ratify/SKILL.md) walks those findings with
+    the user for a verdict on each;
+    [`unfrak-register`](skills/unfrak-register/SKILL.md) records where the code
+    falls short of them; [`unfrak-lock`](skills/unfrak-lock/SKILL.md) pins the
+    behavior that already works; and
+    [`unfrak-backfill`](skills/unfrak-backfill/SKILL.md) closes the gaps.
+    Two further stages leave the area better than merely specified:
+    [`unfrak-harden`](skills/unfrak-harden/SKILL.md) covers what the docs never
+    promised — the paths that destroy data, touch PII, or call out — and walks
+    each security weakness with the user; then
+    [`unfrak-polish`](skills/unfrak-polish/SKILL.md) brings the code into
+    conformance with the practices `AGENTS.md` states, citing the rule behind
+    every finding.
 
 The split matters because `AGENTS.md` content is always in the agent's context,
 while a skill's body loads on demand. Rules that must always hold live in
@@ -44,6 +63,15 @@ skills/
   refactor/SKILL.md           # safe, test-backed refactoring procedure
   dependency-change/SKILL.md  # add/upgrade/remove a dependency (keeps credits accurate)
   confirm-by-eye/SKILL.md     # user-in-the-loop verification for perceptual changes
+  unfrak/SKILL.md             # umbrella: retrofit DDD onto existing code, one area at a time
+  unfrak-survey/SKILL.md      # rank the areas that still have no ratified spec
+  unfrak-inventory/SKILL.md   # list what an area actually does, with evidence
+  unfrak-ratify/SKILL.md      # take the user's verdict on each behavior, one at a time
+  unfrak-register/SKILL.md    # record where the code falls short of the ratified spec
+  unfrak-lock/SKILL.md        # test the ratified behavior the code already delivers
+  unfrak-backfill/SKILL.md    # close every registered gap until the area matches its spec
+  unfrak-harden/SKILL.md      # cover the destructive / PII / external paths; walk weaknesses
+  unfrak-polish/SKILL.md      # conform the area to the stated coding practices
 .claude/skills/               # symlinks so this repo discovers its own skills
 ```
 
@@ -56,6 +84,19 @@ which layout it is running in — a consuming project (where it sits at
 writes the right links for each. Skipping this step is invisible in consuming
 projects but leaves k5's own sessions unable to see the skill that was just
 added.
+
+**That detection is positional, so it cannot see both layouts at once.** When you
+are working on k5 *through* a consuming project — the usual case, since that is
+where the submodule is checked out — the script always takes the consuming-project
+branch, refreshes that project's links, and leaves k5's own tracked links
+untouched however many times you run it. Refresh them by hand from k5's root:
+
+```sh
+for s in skills/*/; do n=$(basename "$s"); [ -f "$s/SKILL.md" ] || continue;
+    ln -snf "../../skills/$n" ".claude/skills/$n"; done
+```
+
+Then commit the links. Worth teaching the script to take a flag instead.
 
 ## Using k5 in another project
 

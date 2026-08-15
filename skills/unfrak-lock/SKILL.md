@@ -5,7 +5,7 @@ description: >-
   lines the code already delivers — and only those — so confirmed behavior cannot
   regress, while gaps stay in the register rather than as red or skipped tests.
   Use after `unfrak-ratify` has settled an area's verdicts, and before
-  `unfrak-finish` closes those gaps.
+  `unfrak-backfill` closes those gaps.
 ---
 
 # Locking ratified behavior with tests
@@ -25,11 +25,11 @@ passes; that is how a reading error becomes permanent.
 
 ## 2. Write nothing *yet* for a line the code does not meet
 Not a failing test, not a skipped one, not a commented-out one. The register
-entry carries that obligation, and the test gets written in `unfrak-finish`, by
+entry carries that obligation, and the test gets written in `unfrak-backfill`, by
 the `new-feature` run that closes the gap — where it belongs, as the failing test
 that drives the change.
 
-The wait is short by design: `unfrak-finish` is the next stage, not a someday.
+The wait is short by design: `unfrak-backfill` is the next stage, not a someday.
 This stage stops short of it only so that the spec is settled before any code
 moves.
 
@@ -54,13 +54,19 @@ area, because it is usually the largest single piece of work in the whole
 retrofit.
 
 Seams needed only by gap fixes rather than by these tests can wait for
-`unfrak-finish`, which opens with exactly this work.
+`unfrak-backfill`, which opens with exactly this work.
 
 ## 4. Cover the expensive cases first
 Within the area, prioritise tests for anything destructive or irreversible,
 anything handling personal data, and anything that talks to an external service —
 mocked, always. A retrofit is often the first time this code has been pinned at
 all; spend the first tests where being wrong costs the most.
+
+This is ordering advice, not the coverage obligation itself. Here you are still
+testing only ratified documentation lines, and the dangerous paths tend not to be
+documented at all — nobody writes down what the software will not destroy.
+`unfrak-harden` is the stage that goes after them systematically, whether or not
+a promise happens to run through them.
 
 ## 5. Leave the suite better than green
 Run the whole suite, not just the new tests, and read the output for warnings as
