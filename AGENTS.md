@@ -8,49 +8,32 @@ This project will take a Documentation Driven Development approach, in which the
 - See ARCHITECTURE.md (descriptive: how the current code is built)
 
 # Engineering Decisions
-- See ENGINEERING_DECISIONS.md — binding, non-user-facing engineering decisions that the
-  implementation must adhere to. Prescriptive and test-backed like README.md, but for the
-  system's internals rather than user-observable behavior. A statement is an *engineering decision*
-  (belongs here, with a test) if it is a requirement we are committing to; it is *architecture*
-  (belongs in ARCHITECTURE.md, no test obligation) if it merely describes how today's code works.
+- See ENGINEERING_DECISIONS.md — binding, non-user-facing engineering decisions that the implementation must adhere to. Prescriptive and test-backed like README.md, but for the system's internals rather than user-observable behavior. A statement is an *engineering decision* (belongs here, with a test) if it is a requirement we are committing to; it is *architecture* (belongs in ARCHITECTURE.md, no test obligation) if it merely describes how today's code works.
 
 # Design
 - See DESIGN.md (visual / UX design brief)
 
 # Security Notes
-- See SECURITY_NOTES.md — working threat-model notes for protecting sensitive user data
-  (exploratory, not binding). Decisions graduate from here to ENGINEERING_DECISIONS.md /
-  README.md / DESIGN.md when actually chosen.
+- See SECURITY_NOTES.md — working threat-model notes for protecting sensitive user data (exploratory, not binding). Decisions graduate from here to ENGINEERING_DECISIONS.md / README.md / DESIGN.md when actually chosen.
 
 # Intent Gaps
-- See INTENT_GAPS.md — places where the code does not yet do what README.md says it
-  should, each with the cost of leaving it and the assertions that will prove it closed.
-  Created and maintained by the `unfrak` workflow; a queue, not an archive, so an
-  entry is deleted by the commit that closes it. Absent until a retrofit finds a gap,
-  and deleted again — along with this entry — once the last one is closed.
+- See INTENT_GAPS.md — places where the code does not yet do what README.md says it should, each with the cost of leaving it and the assertions that will prove it closed. Created and maintained by the `unfrak` workflow; a queue, not an archive, so an entry is deleted by the commit that closes it. Absent until a retrofit finds a gap, and deleted again — along with this entry — once the last one is closed.
 
 # Next Steps
 - See TODO.md
 
 # Routing facts to the right document
-Before recording any behavior, rule, or detail, decide where it belongs. Filing
-internal mechanisms into the end-user docs is a recurring mistake — guard against it.
-Ask, in order:
+Before recording any behavior, rule, or detail, decide where it belongs. Filing internal mechanisms into the end-user docs is a recurring mistake — guard against it. Ask, in order:
 1. Can a user observe or rely on this just by using the product — without reading code, internal docs, or tests? Does it change what they do, see, or can expect? → If yes, it belongs in README.md, stated high-level and in plain user language (what they can do and what happens, never how it works internally).
 2. Otherwise, is it a rule the implementation must obey — a commitment whose violation would be a bug (storage invariants, formats, ID/generation rules, platform constraints, security mechanisms)? → If yes, it belongs in ENGINEERING_DECISIONS.md, with the next ED-<n> id and a TDD_ test.
 3. Otherwise it merely describes how the code is built today and could change without breaking a promise → ARCHITECTURE.md (descriptive, no test).
 
-Default to the lowest altitude that fits. When unsure whether something is user-facing,
-it almost certainly is not — prefer an engineering decision over the README. The README
-earns each line: if deleting a sentence would not stop a user from doing or expecting
-something, it does not belong there.
+Default to the lowest altitude that fits. When unsure whether something is user-facing, it almost certainly is not — prefer an engineering decision over the README. The README earns each line: if deleting a sentence would not stop a user from doing or expecting something, it does not belong there.
 * "Your export downloads as a CSV you can open in any spreadsheet" → README; "export rows are UTF-8 with a BOM and CRLF line endings" → engineering decision.
 * "You stay signed in across restarts" → README; "session tokens live in the OS keychain and rotate every 24h" → engineering decision.
 
 # Coding Practices
-Project requirements are defined by the end-user documentation, and features are built
-test-first under Documentation Driven Development. The detailed procedure is the
-`new-feature` skill; the binding rules are:
+Project requirements are defined by the end-user documentation, and features are built test-first under Documentation Driven Development. The detailed procedure is the `new-feature` skill; the binding rules are:
 * Behavior is specified in the end-user docs before it is built, and the user — not the agent — authors those docs.
 * Automated tests (TDD_ prefix) are written from the documented behavior and must fail before implementation.
 * Binding, non-user-facing decisions are recorded in ENGINEERING_DECISIONS.md, each with a TDD_ test, before implementing.
@@ -108,8 +91,7 @@ These are defaults. Any preference the project states overrides them, and the pr
 * Test the things we expect to happen. Also test things like edge cases, missing resources, garbage inputs, and successful prevention of things we don't want to happen.
 
 # Workflows
-Detailed, step-by-step procedures live as skills, so they load only when needed.
-Invoke the matching skill at the right moment:
+Detailed, step-by-step procedures live as skills, so they load only when needed. Invoke the matching skill at the right moment:
 * `new-feature` — when starting or implementing net-new behavior. Walks the test-first DDD loop: confirm the spec in the end-user docs, write failing `TDD_` tests, record engineering decisions, implement to green, update `TODO.md`.
 * `refactor` — when restructuring existing code without changing its observable behavior. Keeps the refactor in its own commit, separate from feature work, and re-verifies behavior with the existing tests.
 * `dependency-change` — when adding, upgrading, replacing, or removing a third-party dependency. Enforces the dependency rules below, including crediting the change wherever this project tracks attribution.
