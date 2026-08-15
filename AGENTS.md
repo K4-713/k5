@@ -22,6 +22,13 @@ This project will take a Documentation Driven Development approach, in which the
   (exploratory, not binding). Decisions graduate from here to ENGINEERING_DECISIONS.md /
   README.md / DESIGN.md when actually chosen.
 
+# Intent Gaps
+- See INTENT_GAPS.md — places where the code does not yet do what README.md says it
+  should, each with the cost of leaving it and the assertions that will prove it closed.
+  Created and maintained by the `unfrak` workflow; a queue, not an archive, so an
+  entry is deleted by the commit that closes it. Absent until a retrofit finds a gap,
+  and deleted again — along with this entry — once the last one is closed.
+
 # Next Steps
 - See TODO.md
 
@@ -100,3 +107,10 @@ Invoke the matching skill at the right moment:
 * `dependency-change` — when adding, upgrading, replacing, or removing a third-party dependency. Enforces the dependency rules below, including crediting the change wherever this project tracks attribution.
 * `wrap-up-work` — when finishing a chunk of work, before committing or opening a PR. Reconciles the documentation against the code and closes `TDD_` test gaps.
 * `confirm-by-eye` — when iterating on a change that can only be judged perceptually (look, motion, feel, sound, timing) and cannot be pinned by a `TDD_` test. Isolates one change at a time, gives the user an A/B toggle in the real running product, and treats the user's perception — not the agent's own probe — as the verdict.
+* `unfrak` — when adopting DDD on code that was written before it, or on a feature area that has no spec at all. The umbrella workflow: takes one area at a time and runs its six stages, each of which is its own skill.
+  * `unfrak-survey` — finds what still has no ratified spec and ranks it by what being wrong there would cost and how likely wrong is, leaving a backlog to work through. Run before the first area, and again when the backlog goes stale.
+  * `unfrak-inventory` — reads the area and lists what it actually does, with `file:line` evidence and honest confidence, routed to end-user docs / engineering decisions / architecture before the user sees any of it.
+  * `unfrak-ratify` — walks the user-observable candidates with the user one at a time, taking a verdict on each: right, wrong, not a promise, or pending. The user authors the resulting documentation.
+  * `unfrak-register` — records every place the code does not do what the user says it should, with the cost of leaving it and the test that will prove it closed.
+  * `unfrak-lock` — writes `TDD_` tests for the ratified behavior the code already delivers, and deliberately none for behavior it does not, so a retrofit never leaves the suite red or noisy.
+  * `unfrak-finish` — treats the ratified documentation as a feature that is only partly built: refactors for testability, closes every register entry through `new-feature`, and tests every promise, until the area reads as though it had been written under DDD from the start.
