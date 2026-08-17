@@ -1,7 +1,7 @@
 ---
 name: unfrak-backfill
 description: >-
-  Sixth stage of an unfrak, and the last one concerned with the spec: treat the newly ratified documentation as a feature that is only partly built, and close the distance — refactor for testability, fix every gap in the register through `new-feature`, and test every promise — until the area is indistinguishable from one written under DDD from the start. Use after `unfrak-lock`, once ratification is complete and no verdicts are still pending, and before `unfrak-harden` covers what the documentation never promised.
+  The last stage concerned with the spec: treat the newly ratified documentation as a feature that is only partly built, and close the distance — refactor for testability, fix every gap in the register through `new-feature`, and test every promise — until the area is indistinguishable from one written under DDD from the start. Use after `unfrak-lock`, once ratification is complete and no verdicts are still pending, and before `unfrak-harden` covers what the documentation never promised.
 ---
 
 # Backfilling the gaps
@@ -46,10 +46,10 @@ Corrected history is worth calling out specifically. When a gap has been writing
 The backfill is complete when all of these hold — check them, do not assume them:
 
 - Every end-user documentation line for the area has a `TDD_` test that cites it, and the suite is green.
-- Every engineering decision recorded for the area has its test.
-- The register holds no entries for the area.
+- Every engineering decision recorded for the area is actually pinned — which is a judgement about whether the rule could still be broken without a test failing, not a check that some test mentions it. One rule usually needs several.
+- The register holds no entries for the area, of either kind: neither broken promises nor broken engineering decisions.
 - The working record has no unanswered questions and no unverified evidence.
-- The architecture notes match what the code now does, not what it did before the fixes.
+- The architecture notes describe what the code does now, not what it did before the fixes. **This stage owns that update**, not the stage that first wrote them — `unfrak-describe` ran before any of these changes, so anything invalidated here is invalidated by this work and gets corrected as part of it.
 
 Then hand the area on to `unfrak-harden`, which covers the paths this stage had no grounds to touch because the documentation never promised anything about them, and after it `unfrak-polish`. The area closes as the umbrella describes — commit, run `wrap-up-work`, delete the working record — once those have run too.
 

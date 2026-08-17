@@ -11,13 +11,13 @@ This project will take a Documentation Driven Development approach, in which the
 - See ENGINEERING_DECISIONS.md — binding, non-user-facing engineering decisions that the implementation must adhere to. Prescriptive and test-backed like README.md, but for the system's internals rather than user-observable behavior. A statement is an *engineering decision* (belongs here, with a test) if it is a requirement we are committing to; it is *architecture* (belongs in ARCHITECTURE.md, no test obligation) if it merely describes how today's code works.
 
 # Design
-- See DESIGN.md (visual / UX design brief)
+- See DESIGN.md (visual / UX design brief) — prescriptive like README.md, but for how the product looks and behaves. Built or recovered by the `unfrak-design` skill, and enforced per-area by `unfrak-polish`.
 
 # Security Notes
 - See SECURITY_NOTES.md — working threat-model notes for protecting sensitive user data (exploratory, not binding). Decisions graduate from here to ENGINEERING_DECISIONS.md / README.md / DESIGN.md when actually chosen.
 
 # Intent Gaps
-- See INTENT_GAPS.md — places where the code does not yet do what README.md says it should, each with the cost of leaving it and the assertions that will prove it closed. Created and maintained by the `unfrak` workflow; a queue, not an archive, so an entry is deleted by the commit that closes it. Absent until a retrofit finds a gap, and deleted again — along with this entry — once the last one is closed.
+- See INTENT_GAPS.md — places where the code does not yet do what the project says it should, each with the cost of leaving it and the assertions that will prove it closed. Created and maintained by the `unfrak` workflow; a queue, not an archive, so an entry is deleted by the commit that closes it. Absent until a retrofit finds a gap, and deleted again — along with this entry — once the last one is closed.
 
 # Next Steps
 - See TODO.md
@@ -101,8 +101,10 @@ Detailed, step-by-step procedures live as skills, so they load only when needed.
   * `unfrak-survey` — finds what still has no ratified spec and ranks it by what being wrong there would cost and how likely wrong is, leaving a backlog to work through. Run before the first area, and again when the backlog goes stale.
   * `unfrak-inventory` — reads the area and lists what it actually does, with `file:line` evidence and honest confidence, routed to end-user docs / engineering decisions / architecture before the user sees any of it.
   * `unfrak-ratify` — walks the user-observable candidates with the user one at a time, taking a verdict on each: right, wrong, not a promise, or pending. The user authors the resulting documentation.
-  * `unfrak-register` — records every place the code does not do what the user says it should, with the cost of leaving it and the test that will prove it closed.
-  * `unfrak-lock` — writes `TDD_` tests for the ratified behavior the code already delivers, and deliberately none for behavior it does not, so a retrofit never leaves the suite red or noisy.
+  * `unfrak-register` — records every place the code does not do what the project says it should — a promise the user ratified or an engineering decision they said binds — with the cost of leaving it and the tests that will prove it closed.
+  * `unfrak-lock` — writes `TDD_` tests for the ratified behavior the code already delivers, and deliberately none for behavior it does not, so a retrofit never leaves the suite red or noisy. Then works outward from what those tests did not reach to find the engineering decisions nobody wrote down, taking a verdict on each: binding rule, or merely how the code happens to work.
+  * `unfrak-describe` — writes the architecture notes once `unfrak-lock` has finished moving the structure around, drafted by the agent for the user to correct rather than authored by the user. Descriptive only: no promise, no test.
   * `unfrak-backfill` — treats the ratified documentation as a feature that is only partly built: refactors for testability, closes every register entry through `new-feature`, and tests every promise, until the area reads as though it had been written under DDD from the start.
   * `unfrak-harden` — covers what the documentation never promised: the paths that can destroy data, handle PII, or call an external service. Writes the test coverage required above, then walks each security weakness with the user one at a time and records the verdicts, with their reasoning, in `SECURITY_NOTES.md`.
   * `unfrak-polish` — brings the area into conformance with the coding practices, guidelines, logging, accessibility, and performance rules stated above, every finding citing the rule it serves. Proposes the ranked list before any code moves, then fixes what the user approves under `refactor`.
+* `unfrak-design` — when the product has no written design standard, or one that lives only in somebody's head. A sibling of the `unfrak` family rather than one of its stages: it works across the whole product instead of one area, enumerates what each design axis actually uses and lets the shape of that distribution say whether a convention is being recovered or invented, then settles each axis with the user into a `DESIGN.md`. Adopt the standard as its own deliberate work — a half-migrated visual standard looks worse than either endpoint.

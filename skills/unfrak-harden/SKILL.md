@@ -1,7 +1,7 @@
 ---
 name: unfrak-harden
 description: >-
-  Seventh stage of a DDD retrofit: prove the paths that can destroy data, handle personal information, or call an external service — the ones end-user documentation never mentions — by writing the coverage AGENTS.md requires, then walking each security weakness with the user one at a time and recording the verdicts in SECURITY_NOTES.md. Use after `unfrak-backfill` has closed an area's gaps, and before `unfrak-polish`. Also runs standalone on any area already under DDD whose dangerous paths have never been pinned.
+  Proves the paths that can destroy data, handle personal information, or call an external service — the ones end-user documentation never mentions — by writing the coverage AGENTS.md requires, then walking each security weakness with the user one at a time and recording the verdicts in SECURITY_NOTES.md. Use after `unfrak-backfill` has closed an area's gaps, and before `unfrak-polish`. Also runs standalone on any area already under DDD whose dangerous paths have never been pinned.
 ---
 
 # Hardening the dangerous paths

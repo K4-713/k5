@@ -1,7 +1,7 @@
 ---
 name: unfrak-ratify
 description: >-
-  Second stage of a DDD retrofit: walk the inventoried user-observable behaviors with the user one at a time, take a verdict on each (right / wrong / not a promise), and turn the confirmed ones into end-user documentation in the user's own words. Use after `unfrak-inventory` has produced a numbered list, and alongside `unfrak-register` for anything the user says is wrong.
+  Walks the inventoried user-observable behaviors with the user one at a time, takes a verdict on each (right / wrong / not a promise), and turns the confirmed ones into end-user documentation in the user's own words. Use after `unfrak-inventory` has produced a numbered list, and alongside `unfrak-register` for anything the user says is wrong.
 ---
 
 # Ratifying behavior with the user
@@ -9,7 +9,9 @@ description: >-
 The stage where recovered behavior becomes a spec — or gets rejected. It is the only stage that can tell intent from accident, because only the user knows which is which.
 
 ## 1. Open with the size of the job
-Say how many points the area holds and how they group before asking the first one. The user is agreeing to a workload and needs to see it. Mention anything being filed without their input (internal rules, architecture notes) so the count is honest.
+Say how many points the area holds and how they group before asking the first one. The user is agreeing to a workload and needs to see it.
+
+Say what this stage is *not* asking about, too, so the count is honest and the deferral is visible. Internal rules and architecture notes are not settled here, but they are not settled without the user either — `unfrak-lock` takes a verdict on each internal rule, and `unfrak-describe` puts the descriptive notes in front of them to correct. Give the size of those piles as well, and say which stage they are waiting for.
 
 ## 2. Ask one point per message
 Number as you go — "3 of 16" — and give:

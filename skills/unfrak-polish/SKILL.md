@@ -1,7 +1,7 @@
 ---
 name: unfrak-polish
 description: >-
-  Eighth and last stage of a DDD retrofit: bring an area into conformance with the coding principles AGENTS.md actually states — readability, modularity and reuse, no magic numbers, logging levels, accessibility, and performance — by auditing against the written rules, proposing the whole ranked list before any code moves, and fixing what the user approves under the `refactor` skill. Use after `unfrak-harden`. Also runs standalone on any area already under DDD with a green suite.
+  The last stage an unfrak runs on an area: bring it into conformance with the coding principles AGENTS.md actually states — readability, modularity and reuse, no magic numbers, logging levels, accessibility, and performance — by auditing against the written rules, proposing the whole ranked list before any code moves, and fixing what the user approves under the `refactor` skill. Use after `unfrak-harden`. Also runs standalone on any area already under DDD with a green suite.
 ---
 
 # Polishing to the stated principles
@@ -52,7 +52,12 @@ Three of the four rule groups routinely produce items that change observable beh
 - **Performance and battery** items split cleanly. Moving a hardcoded interval into config *is* a refactor and belongs here. Changing what that interval should be is a decision the user makes, and often a documented one.
 - **Logging** is mostly internal and safe: adding a missing log, correcting a level. But "log level changeable by settings rather than a deploy" can be feature-sized on a project that never built the setting. When it is, it is an engineering decision and a `new-feature` run, or a `TODO.md` entry — not something to improvise midway through a rename commit.
 
-## 6. Know when to stop
+## 6. Correct the architecture notes you invalidate
+This is the stage most likely to make `ARCHITECTURE.md` wrong, because extracting helpers, consolidating duplicated logic and moving constants into config all change the shape the notes describe. Whatever this pass restructures, it also re-describes, in the same commit as the change — that is the standing obligation to keep the architecture current, landing on the stage that broke it.
+
+Where a finding is one those notes explicitly justify — an oddity recorded as deliberate — treat that as a strong signal it is not a finding at all. Take it back to the user before rewriting something a previous stage went out of its way to explain.
+
+## 7. Know when to stop
 Conformance to the stated principles is the finish line, not beauty. When every approved finding is closed and the remaining ones were ratified as deliberate, the area is done, even if you can still see things you would have written differently.
 
 Check `TODO.md` before starting and do not polish code that is scheduled for deletion or rewrite. Perfecting something on its way out is the purest form of wasted motion this workflow can produce.
