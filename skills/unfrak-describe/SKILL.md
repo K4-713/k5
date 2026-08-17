@@ -1,7 +1,7 @@
 ---
 name: unfrak-describe
 description: >-
-  Writes the architecture notes for an area once its structure has stopped moving — after `unfrak-lock` has introduced whatever seams the tests needed, and before `unfrak-backfill` starts changing behavior. Descriptive only: how the code is actually built, carrying no promise and owing no test. The agent drafts these and the user corrects them, which is the opposite of how end-user documentation is authored. Also runs standalone on any area whose architecture notes have gone stale or never existed.
+  Writes the architecture notes for an area once its structure has stopped moving — after `unfrak-lock` has introduced whatever seams the tests needed, and before `unfrak-backfill` starts changing behavior. Descriptive only: how the code is actually built, carrying no promise and owing no test. The agent drafts the wording, which is the opposite of how end-user documentation is authored, but walks the questions only the user can settle one at a time, which is the same as every other stage. Also runs standalone on any area whose architecture notes have gone stale or never existed.
 ---
 
 # Describing what is actually there
@@ -34,12 +34,19 @@ Write what a competent newcomer could not work out quickly from the code itself:
 
 Leave out anything the code says plainly at a glance, and anything a test already pins — a test is a better description than a paragraph, because it cannot silently go out of date.
 
-## 4. Draft it, then have it corrected
+## 4. Draft the wording, but walk the questions
 **The authorship here is the reverse of `unfrak-ratify`, and inheriting that skill's rule would be a mistake.** End-user documentation is a specification in the user's voice, so the user writes it and a draft is only ever a proposal. Architecture is a description of code the agent has just read closely and the user may not have opened in a year. Making them author it in their own words is ceremony that produces worse text.
 
-So draft it, and ask them to correct it. What you need from them is not wording but the things reading cannot supply: whether an oddity is deliberate, what an abandoned-looking path was for, which of two mechanisms is the one being migrated toward. Those answers are the difference between a description and an explanation.
+**The pacing, though, is the same as every other stage that involves the user, and for the same reason.** Sort the pile in two before writing anything.
 
-Mark clearly anything you inferred rather than verified, and never launder an inference into a flat statement of fact.
+- **What reading settles.** Shape, flow, what calls what. Draft it in bulk; it needs no verdict and asking about it wastes the attention the rest needs.
+- **What only the user knows.** Whether an oddity is deliberate, what an abandoned-looking path was for, which of two mechanisms is the one being migrated toward, whether a hole is an oversight or a decision. These are questions, and they get walked.
+
+Say how many questions there are before asking the first, then ask **one per message**, numbered as you go. No stacked questions, no "and also, while I have you". A description delivered whole with its uncertainties bundled at the end gets skimmed exactly like a hundred-point ratification does, and a skimmed answer here writes a confident sentence about something nobody actually confirmed.
+
+Each question carries the thing, its `file:line`, **what you inferred and why you are unsure**, and what changes in the document depending on the answer. Marking an inference is not optional and never gets laundered into a flat statement of fact.
+
+Ask before finalising rather than after. An answer routinely replaces a description with an explanation — "routes on heading text rather than the URL" becomes "routes on heading text because the URL is rewritten by the site's own navigation" — and that is a different sentence, not an annotation on the first one. Drafting first and patching later produces prose built around a guess.
 
 ## 5. Say what is not true yet
 The area still has open register entries at this point — that is the normal state, since `unfrak-backfill` has not run. Describe the code as it *is*, not as it is about to become, and where a known gap makes the current structure temporary, say so and point at the entry.
