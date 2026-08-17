@@ -17,7 +17,7 @@ This project will take a Documentation Driven Development approach, in which the
 - See SECURITY_NOTES.md — working threat-model notes for protecting sensitive user data (exploratory, not binding). Decisions graduate from here to ENGINEERING_DECISIONS.md / README.md / DESIGN.md when actually chosen.
 
 # Intent Gaps
-- See INTENT_GAPS.md — places where the code does not yet do what the project says it should, each with the cost of leaving it and the assertions that will prove it closed. Created and maintained by the `unfrak` workflow; a queue, not an archive, so an entry is deleted by the commit that closes it. Absent until a retrofit finds a gap, and deleted again — along with this entry — once the last one is closed.
+- See INTENT_GAPS.md — places where the code does not yet do what the project says it should, each with the cost of leaving it and the assertions that will prove it closed. Created and maintained by the `unfrak` workflow; a queue, not an archive, so an entry is deleted by the commit that closes it. The file is absent until a retrofit finds a gap, and is removed once the retrofit as a whole is over — an empty register partway through is normal and stays where it is.
 
 # Next Steps
 - See TODO.md

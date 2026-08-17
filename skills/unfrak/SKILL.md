@@ -60,18 +60,24 @@ A closed area is one that reads as though it had been built under DDD from the b
 Progress is measured in areas fully ratified, tested, backfilled, and committed — not in documentation drafted or lines written.
 
 ## 5. Wind the process down as it finishes
-Everything this workflow writes about itself is scaffolding, and scaffolding that outlives the building gets mistaken for the building. Take it down in step with the work, in three independent stages — independent because deleting one early loses information the others do not hold.
+Everything this workflow writes about itself is scaffolding, and scaffolding that outlives the building gets mistaken for the building. Take it down in step with the work — but on two clocks, because it is not all the same age.
 
-**Each area's working record** goes when that area closes, as above.
+**An area's own scaffolding goes when that area closes, completely.** Nothing survives to say the area was ever retrofitted except the things that were the point of the exercise: the end-user documentation, the engineering decisions, the architecture notes, and the tests.
+
+**The project's scaffolding outlives every individual area,** because the backlog and the register are both about work that has not happened yet. Deleting either when one area finishes throws away the map of the areas that have not started, which is the opposite of winding down — it is losing the plan while the job is half done.
+
+**Each area's working record** is deleted by the commit that closes the area — deleted, not emptied and not moved somewhere quieter. It has served its purpose the moment its verdicts have become documentation, decisions, notes and tests, and a working record left lying around is read later as though it were one of those.
 
 **The backlog** goes when `unfrak-survey` has nothing left to rank: every surface carries a ratified spec. Do not keep it as a trophy list of completed areas — the end-user documentation is now the map, and a survey that no longer matches the code is worse than no survey at all. If the project grows new surfaces later, the next survey writes a fresh one.
 
-**The register** goes when its last entry is deleted by the fix that closed it, along with the doc-routing entry that points at it. `unfrak-backfill` empties it one area at a time, so if every area is carried through that stage the register never accumulates for long — it exists to hold gaps between the review that found them and the backfill that closes them, and a project that always finishes what it starts keeps it nearly empty by construction.
+**The register** goes when it is empty *and* the backlog is already gone. Both conditions, because emptiness on its own is not a signal: entries arrive from `unfrak-ratify` and from `unfrak-lock`, `unfrak-backfill` clears them an area at a time, and a project that finishes what it starts therefore sits at zero entries most of the time. Deleting the file the moment the count reaches zero would mean recreating it as soon as the next area is reviewed, and an empty register partway through a retrofit means the queue is working, not that it is finished.
 
-It can still outlive the backlog. Areas paused mid-backfill, gaps that turned out to be feature-sized, and anything closed before this stage existed all leave entries standing, and a codebase can be completely specified while knowingly failing several of its own promises.
+The doc-routing entry pointing at it stays either way. It lives in the shared guardrails and describes a kind of document rather than this project's copy of one, so it is not a per-project thing to remove — and other projects are still using it.
+
+So the register is the last thing to go, and by some margin. Areas paused mid-backfill, gaps that turned out to be feature-sized, and anything closed before this stage existed all leave entries standing well after the backlog is gone — a codebase can be completely specified while knowingly failing several of its own promises, and the register is the honest record of that state.
 
 An entry nobody will ever fix is not a gap — it is a document that lies. Take it back through `unfrak-ratify` and settle it: either the code was right all along and the documentation changes to match, or it stays a gap with a fix still owed. What must not happen is a register accruing permanent residents, because that turns a queue into an archive of admitted falsehoods, which is worse than having neither.
 
-**What survives is the point:** the end-user documentation, the engineering decisions, the architecture notes, and the `TDD_` tests. Those are the product. Deleting the rest costs nothing — version control still has every word of it — and that is exactly what makes deletion safe rather than lossy.
+**What survives is the point:** the end-user documentation, the engineering decisions, the architecture notes, and the `TDD_` tests. Those are the product. Deleting the rest costs nothing — version control still has every word of it — and that is exactly what makes deletion safe rather than lossy. That is as true of an area's working record on the day it closes as it is of the backlog at the very end.
 
 Once the last area closes, this workflow goes dormant. New behavior runs through `new-feature`, which starts from documentation by construction, so nothing new should ever need unfrakking. The skills come back only when unspecified code arrives from outside: an acquisition, an inherited service, a vendored dependency somebody started editing.
