@@ -62,6 +62,24 @@ These are defaults. Any preference the project states overrides them, and the pr
 * Default text mechanics: UTF-8, LF line endings, a newline at end of file.
 * **Never reformat or re-wrap text you are not otherwise changing.** A reformat folded into a content change makes the change unreviewable, which costs more than any formatting gain gets back. If a file needs reflowing, that is its own commit touching nothing else.
 
+## Version Control / Git
+* Always edit code in a working branch, never on main or master.
+* Your goal in working with the code repo is to make everything rapidly reviewable, and easy to revert or cherry-pick around if necessary. All the following rules in this list are in support of those goals.
+* Commit often. The goal is one easily reviewable commit for every useful improvement (or usable group of similar improvements), as soon as the test suite passes.
+* Keep commit messages brief. A title line, short summary of the changes, and a note if the deploy will require special actions (like database schema changes or extra scripts) will suffice. If we're following DDD, in-depth documentation of the changes will already be included in the committed documents. Verbosity in the commit message will be redundant and slow everything down.
+* If the user asks to commit work while tests are failing, prefix the commit's title with "WIP: " and start the description with a clear note not to merge or deploy this commit.
+* Commits for refactoring work should be grouped in the following ways, if possible:
+  * Pre-refactor test coverage
+  * Similar changes across the whole codebase (example: Replacing identical copypasta with a call to one specific helper function)
+  * Re-write of a single feature
+  * Removal or deprecation of a single feature
+  * Design standardization
+* Do not mix pure formatting changes and code changes in the same commit. Formatting changes made to lines with no other changes must always have their own commit, to facilitate rapid review.
+* Always follow per-project version control workflow conventions. In the absense of per-project conventions:
+  * Do not merge the working branch back to the main branch until the user confirms the work is finished.
+  * Do not push code: Leave this to the user.
+
+
 ## Dependencies
 * 3rd party dependencies must be kept current
 * Avoid introducing new dependencies to production code
