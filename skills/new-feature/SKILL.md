@@ -8,11 +8,11 @@ description: >-
 
 Net-new behavior is built test-first: the end-user documentation is the spec, the tests encode it, and the implementation makes the tests pass. Work the steps in order.
 
-## 1. Establish the spec — the user writes it, not you
-The behavior must be described in the end-user docs (`README.md`), in the "as if it already exists" voice, *before* any code.
+## 1. Establish the spec
+For user-facing features, the new feature must be referenced and roughly described in the end-user docs (`README.md`), in the "as if it already exists" voice, *before* any code is written.
 
-- If it is already documented, confirm the documented behavior is what you're about to build, and move on.
-- If it is missing or too thin to test against, **do not author the spec and do not write usable prose.** The user owns the end-user docs. Instead, insert a bracketed placeholder that says *where* and *what* is missing but is deliberately **not shippable as written**, then stop and wait for the user to fill it in. Use this form:
+- If it is already mentioned, confirm that README.md matches what you're about to build, and move on.
+- If it is completely missing, **do not author the README lines and do not write usable prose.** The user owns the end-user docs. Instead, insert a bracketed placeholder that says *where* and *what* is missing but is deliberately **not shippable as written**, then stop and wait for the user to fill it in. Use this form:
 
   ```
   [NEEDS END-USER DOC — <feature>: state what the user does and what they
@@ -20,19 +20,21 @@ The behavior must be described in the end-user docs (`README.md`), in the "as if
   implementation details do not belong here. Replace this entire bracket.]
   ```
 
-  Do not proceed past this step until the user has written the real text.
+  Do not proceed past this step until the user has written the real text. Note: The README.md is meant to be a very high-level doc primarily written for users of the software, and is not itself meant to be a full spec. Aside from mentioning basic things about user-facing features, not much else will be required here. Properly intuitive design typically doesn't require much explanation, though the user may decide to go deeper for complex interactions.
 
 ## 2. Decide what is even user-facing (altitude)
 A recurring failure is pushing internal mechanisms up into the end-user docs. For every fact you're tempted to document, route it:
 
-1. **User-observable** — can a user notice or rely on it just by using the product, without reading code/tests? → `README.md`, high-level, plain language. (This is the only thing the user writes in step 1.)
-2. **Binding internal rule** — invisible to users but a commitment the implementation must obey, where a violation is a bug (storage invariants, formats, ID/generation rules, platform constraints, security mechanisms)? → `ENGINEERING_DECISIONS.md` (step 3).
-3. **Merely descriptive** — just how the code is built today, free to change without breaking a promise? → `ARCHITECTURE.md`, no test.
+1. **Feature summary** — basic description of the existence, general purpose, and usage of all user-facing features → `README.md`, high-level, plain language, often broad statements. (This is the only thing the user must write in step 1.)
+2. **User-observable, complex**  — details about features that require explanation for proper usage or interpretation → `README.md`, lower level, still plain language.
+3. **User-observable, intuituve usage**  — details about features that a typical user will understand intuitively without a verbose explanation, but a commitment the implementation must obey, where a violation is a bug (enumeration of all visible columns in a report, verbose description of a simple feature)?  → `ENGINEERING_DECISIONS.md` (step 3).
+4. **Binding internal rule** — invisible to users but a commitment the implementation must obey, where a violation is a bug (storage invariants, formats, ID/generation rules, platform constraints, security mechanisms)? → `ENGINEERING_DECISIONS.md` (step 3).
+5. **Merely descriptive** — just how the code is built today, free to change without breaking a promise? → `ARCHITECTURE.md`, no test.
 
 When unsure, it is almost certainly **not** user-facing — default to an engineering decision over the README.
 
 ## 3. Record engineering decisions first, with tests
-Before implementing, write any binding, non-user-facing decisions into `ENGINEERING_DECISIONS.md`, each with the next sequential `ED-<n>` id. Cover each one with a `TDD_` test whose comment cites the id, e.g.:
+Before implementing, work with the user to write binding decisions about non-user-facing implementation and/or intuitive feature usage into `ENGINEERING_DECISIONS.md`, each with the next sequential `ED-<n>` id. Cover each one with a `TDD_` test whose comment cites the id, e.g.:
 
 ```
 // ENGINEERING_DECISIONS.md ED-7
