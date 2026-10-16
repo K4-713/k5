@@ -35,8 +35,8 @@ With the area chosen by `unfrak-survey`:
 4. **`unfrak-lock`** — write `TDD_` tests for the ratified behavior the code already delivers, then go after the engineering decisions those tests did not reach and take a verdict on each with the user.
 5. **`unfrak-describe`** — write the architecture notes now that the structure has stopped moving, drafted for the user to correct.
 6. **`unfrak-backfill`** — treat the ratified documentation as a feature that is only partly built: refactor for testability, close every register entry through `new-feature`, and test every promise, until nothing about the area betrays that it was written before its spec.
-7. **`unfrak-harden`** — pin the paths the documentation never mentions: what can destroy data, handle personal information, or call an external service. Write the coverage AGENTS.md requires, then walk each security weakness with the user and record the verdicts.
-8. **`unfrak-polish`** — bring the area into conformance with the coding principles AGENTS.md states, every finding citing the rule it serves.
+7. **`unfrak-harden`** — pin the paths the documentation never mentions: what can destroy data, handle personal information, or call an external service. Write the coverage AGENTS.md requires, hold every request the area sends or receives to the `request-handling` checklists, then walk each security weakness with the user and record the verdicts.
+8. **`unfrak-polish`** — bring the area into conformance with the coding principles AGENTS.md states, "Requests between systems" among them, every finding citing the rule it serves.
 
 Stages 3 and 4 can interleave with stage 2 as verdicts arrive; do not let them run ahead of it. Note that 3 is fed by both 2 and 4 — a promise the code breaks and a rule the code breaks are the same kind of debt and share one queue.
 
@@ -45,6 +45,8 @@ Stage 6 starts only once stage 2 has no pending verdicts left — backfilling ag
 The rest of the order is load-bearing rather than alphabetical. 5 comes after 4 because locking introduces the seams that change the very structure being described, so describing earlier documents a shape that will not exist. 6 leaves the code doing what it promises; 7 proves the parts nothing ever promised; and only then does 8 restructure any of it. Polishing before hardening restructures dangerous paths that nothing yet covers, and hardening before backfilling pins code a still-open gap may replace.
 
 The first six stages are what make an area *specified*. The last two are what make it *good*, and they are the only stages that may be run on their own, against any area already carrying a ratified spec and a green suite — as may 5, whenever an area's architecture notes have gone stale or never existed.
+
+**Requests between systems are enforced, not just noted.** Every area that sends or receives a request is held to AGENTS.md's "Requests between systems" through the `request-handling` skill: `unfrak-inventory` lists each request, `unfrak-harden` treats a write that can be lost, duplicated, or dropped on a rejection as a data-loss path and covers it, and `unfrak-polish` brings the rest into conformance. An area whose writes can still be silently lost is not closed.
 
 Architecture is written once at 5 and maintained by whatever invalidates it afterwards. Stages 6, 7 and 8 each change the code and each own re-describing what they changed, rather than leaving a correction pass for the end.
 

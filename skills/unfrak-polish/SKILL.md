@@ -1,7 +1,7 @@
 ---
 name: unfrak-polish
 description: >-
-  The last stage an unfrak runs on an area: bring it into conformance with the coding principles AGENTS.md actually states — readability, modularity and reuse, no magic numbers, logging levels, accessibility, and performance — by auditing against the written rules, proposing the whole ranked list before any code moves, and fixing what the user approves under the `refactor` skill. Use after `unfrak-harden`. Also runs standalone on any area already under DDD with a green suite.
+  The last stage an unfrak runs on an area: bring it into conformance with the coding principles AGENTS.md actually states — readability, modularity and reuse, no magic numbers, logging levels, requests between systems, accessibility, and performance — by auditing against the written rules, proposing the whole ranked list before any code moves, and fixing what the user approves under the `refactor` skill. Use after `unfrak-harden`. Also runs standalone on any area already under DDD with a green suite.
 ---
 
 # Polishing to the stated principles
@@ -24,6 +24,7 @@ The principles in scope are the ones AGENTS.md states. Read them there rather th
 
 - **Guidelines** — human-readability over brevity in both structure and naming; modular code reused rather than duplicated, with common patterns abstracted into short helpers; reusing and extending existing structures instead of parallelising or short-circuiting them; comments that match the code they describe; and **no magic numbers or string constants that ought to be settings or config variables**.
 - **Logging** — key events logged at all; the *right* level per AGENTS.md's definitions, which are precise and worth rereading (errors mean a system-level problem needing attention, warnings mean unexpected but not user-visible, info means countable activity, debug means verbose troubleshooting); and log level changeable by a settings change rather than a deploy.
+- **Requests between systems** — every rule in that AGENTS.md section, audited with the `request-handling` skill's checklists: the four outcomes said explicitly, thin replies, full redacted failure logs, the sender's hold, the retry pattern, duplicate safety, timeouts, reads never replayed, trace references kept apart from duplicate detection, a result line for every "sent" line, held requests findable, and version handling. `unfrak-harden` will have covered the data-loss paths; the rest is conformance and is found here.
 - **Accessibility** — best practice on anything rendering a user interface, including UI a browser extension injects into somebody else's page.
 - **Performance and battery** — polling, batching, redundant work, and anything that keeps a device awake or busy more than it needs to be.
 
@@ -46,10 +47,11 @@ Run `refactor` for the work itself — this stage decides *what* and *why*, that
 **If a test has to change, stop.** Exactly one of two things is true. Either the test was asserting on the implementation rather than the behavior — in which case fixing the test is its own commit with its own reasoning, and it is a finding in its own right. Or the change is not behavior-preserving after all, and it belongs in step 5. Editing a test to match refactored code, in the same commit as the refactor, destroys the only evidence that the refactor was safe.
 
 ## 5. Some of these are not refactors, and they leave this skill
-Three of the four rule groups routinely produce items that change observable behavior. Route them; do not smuggle them through as cleanup.
+Four of the rule groups routinely produce items that change observable behavior. Route them; do not smuggle them through as cleanup.
 
 - **Accessibility** fixes usually change what a user perceives — labels, focus order, announcements, contrast. That is user-observable behavior, so it is a README line the user ratifies and a `new-feature` run, not a quiet improvement.
 - **Performance and battery** items split cleanly. Moving a hardcoded interval into config *is* a refactor and belongs here. Changing what that interval should be is a decision the user makes, and often a documented one.
+- **Requests between systems** items are rarely pure refactors. Routing a send through the shared path, holding a rejected write instead of dropping it, adding a timeout, or changing what a reply says all change behavior: each is an engineering decision and a `new-feature` run (or the project's existing decisions applied), never a rename-commit passenger. Extracting duplicated send code into the shared path *without* changing what it does on any outcome is a refactor, and belongs here.
 - **Logging** is mostly internal and safe: adding a missing log, correcting a level. But "log level changeable by settings rather than a deploy" can be feature-sized on a project that never built the setting. When it is, it is an engineering decision and a `new-feature` run, or a `TODO.md` entry — not something to improvise midway through a rename commit.
 
 ## 6. Correct the architecture notes you invalidate

@@ -1,7 +1,7 @@
 ---
 name: unfrak-harden
 description: >-
-  Proves the paths that can destroy data, handle personal information, or call an external service — the ones end-user documentation never mentions — by writing the coverage AGENTS.md requires, then walking each security weakness with the user one at a time and recording the verdicts in SECURITY_NOTES.md. Use after `unfrak-backfill` has closed an area's gaps, and before `unfrak-polish`. Also runs standalone on any area already under DDD whose dangerous paths have never been pinned.
+  Proves the paths that can destroy data, handle personal information, call an external service, or lose or duplicate a write in transit — the ones end-user documentation never mentions — by writing the coverage AGENTS.md requires and holding every request to the `request-handling` checklists, then walking each security weakness with the user one at a time and recording the verdicts in SECURITY_NOTES.md. Use after `unfrak-backfill` has closed an area's gaps, and before `unfrak-polish`. Also runs standalone on any area already under DDD whose dangerous paths have never been pinned.
 ---
 
 # Hardening the dangerous paths
@@ -27,11 +27,14 @@ Walk the area's real entry points and enumerate, with `file:line` evidence and a
 - **Destructive** — anything that deletes, overwrites, or truncates data that already exists. Look past the obvious `DELETE`: bulk updates, an upsert that replaces rather than merges, a cache eviction that discards the only copy, a migration, a "reset" or "sync" that treats one side as authoritative, and any statement whose `WHERE` clause you cannot prove is narrow.
 - **Personal information** — anything that could handle a user's PII, which is wider than anything that *stores* it. Reading, rendering, transmitting, caching, and **logging** all count, and logs and error messages are where PII leaks in code that never meant to keep any.
 - **External calls** — anything initiating a call off-box, including the ones made on the user's behalf by a browser extension or a background worker.
+- **Requests that can lose or duplicate data** — every request the area sends or receives, held to AGENTS.md's "Requests between systems" with the `request-handling` skill's checklists, between our own components as much as to a third party. A write that can be dropped on a rejection, lost to an outage, lost to a send that bypasses the shared held path, or stored twice by a retry is a destructive path in all but name: rank and cover it with the destructive ones. A reply that hands the caller its reasons, and a log that holds a secret, are weaknesses for step 4.
 
 Note anything that is dangerous only in combination — a narrow delete driven by an identifier that arrives unvalidated is one finding, not two.
 
 ## 3. Write the missing coverage; this half is not a question
 AGENTS.md requires test coverage for all three categories. Coverage is additive and changes no behavior, so write it rather than proposing it. Everything that may contact an external service is mocked, the local database included.
+
+For requests, cover what is the request type's own — that it goes through the shared path, and that sent twice it is stored once — and confirm the shared sender and receiver already carry their outcome tests; where they do not exist yet, that is a finding, not a test to write piecemeal per request.
 
 Test the prevention, not just the action. The valuable assertion is usually that the dangerous thing *refuses*: that the delete declines when its guard is not met, that a malformed identifier is rejected before it reaches a query, that a failed call leaves stored data untouched. Cover the expected case, then the edge cases, missing resources, garbage inputs, and the successful prevention of what must not happen.
 

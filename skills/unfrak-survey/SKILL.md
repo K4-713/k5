@@ -31,7 +31,7 @@ The three states worth distinguishing: **no spec and no tests** (the true unfrak
 ## 3. Judge each area on four axes
 Keep these qualitative — High / Medium / Low. Invented precision here is worse than none, because it hides the reasoning that actually matters.
 
-- **Cost of being wrong.** Security, privacy, data loss or corruption, expendature of resources (3rd party API calls, compute power), financial transactions, anything irreversible, anything a user acts on. An area that alters PII, deletes real data, spends resources, or handles finances outranks anything read-only.
+- **Cost of being wrong.** Security, privacy, data loss or corruption, expendature of resources (3rd party API calls, compute power), financial transactions, anything irreversible, anything a user acts on. An area that alters PII, deletes real data, spends resources, or handles finances outranks anything read-only — as does one whose writes can be silently lost or duplicated in transit (see AGENTS.md, "Requests between systems").
 - **Likelihood of being wrong.** No tests, heavy churn, many hands, dependence on a third party that changes without warning (3rd party integrations and page scrapers rot quietly), and any drift evidence found above.
 - **Reach.** How much else assumes or depends on this area's correct behavior. Shared helpers and data that other features read are worth more than a leaf page, because a wrong assumption here is wrong in many places at once.
 - **Cost to unfrak.** Size, whether the code has a seam to test against or needs a refactor first, and whether ratifying it needs observations nobody can make on demand (a live workflow, a monthly job, a captured page).

@@ -11,6 +11,8 @@ The stage that produces the list everything else works from. Nothing here involv
 ## 1. Read the whole area, including its far side
 An area rarely exists within one file. A browser extension's page script has a background half; a page has an endpoint behind it; a scraper has a parser downstream. Follow each thread until you reach storage or a screen, because that is where behavior becomes user-observable, and observable is what end-user documentation is about.
 
+**List every request the area sends or receives** on the way: its direction, whether it is a read or a write, whether it goes through the project's shared request path, and what happens on each of the four outcomes in the `request-handling` skill — stored, partly stored, rejected, not handled. Record what the code actually does on each, with evidence, including "nothing" and "drops it". These feed `unfrak-harden` and `unfrak-polish`, which hold them to AGENTS.md's "Requests between systems".
+
 ## 2. Write each candidate behavior down three ways
 For every behavior the area exhibits, record:
 
