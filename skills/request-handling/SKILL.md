@@ -68,6 +68,10 @@ Recognise repeats by what the data **is** wherever possible — a natural key, s
 
 Anything that adds to a running total is where this bites. Audit those first.
 
+**A person's press is the duplicate's most common source, so the page answers it in two stages.** First it stops the control from sending again: disabled and marked busy (`aria-busy` or the platform's equivalent), which reads as "not now" on even the smallest control. Second, it shows the new state only when a reply confirms it. Showing it on the press instead is the bug this rule exists for: a failure then looks exactly like a success, and the person acts on a state that was never stored.
+
+Tiny controls cannot carry a message, and do not have to. On failure the control returns to its last confirmed state — a quantity that never changed snaps back, and that is itself the signal — and the reason goes to one notice area the whole page shares, announced to assistive technology (an ARIA live region on the web). A brief cue on the control, such as a flash as it snaps back, helps the eye find the row; it is perceptual, so each project settles it by eye rather than by rule. A stepper that disabled itself after every press would be miserable to use, so it may instead fold further presses into one pending value, shown as pending, and send once for the result; the confirmed value still changes only on the reply. A write held for a retry leaves its control waiting rather than re-enabled, so a held write never invites a second press.
+
 ## 6. Timeouts
 
 Every request has one; a timeout is **not handled**. Size it with room above the receiver's slowest normal request, and short enough that one hung request cannot stall the one-at-a-time queue for long. The receiver's own processing limit must be shorter, so a request the sender abandoned is not still running.
@@ -142,5 +146,6 @@ These are engineering decisions, one `ED-<n>` each, with tests where they bind:
 - [ ] Goes through the shared path (the codebase-wide test covers it)
 - [ ] Its handler treats a repeat as a repeat: sent twice, stored once — by natural key, or a machine ID made at action start
 - [ ] If it is a read: a missing answer is told to the person, never shown as silence or as an old answer
+- [ ] If a person's press sends it: the control stops sending again at once, shows the new state only on a confirming reply, and otherwise returns to its last confirmed state with the reason in the page's shared, announced notice area
 
 **Auditing an existing area** (`unfrak-inventory`, `unfrak-harden`, `unfrak-polish`): list every request the area sends or receives — its direction, read or write, whether it goes through the shared path, and what it does with each of the four outcomes — and hold each one to the checklists above. A write that can be lost, duplicated, or dropped on a rejection is a data-loss finding, ranked with the destructive paths, not a style note.
